@@ -10,14 +10,29 @@ class RandomQuote {
     return new Quote(id, text, author);
   }
 
-  static async getRandomQuoteViaAPI() {
+  static async getRandomQuoteViaPublicAPI() {
     const url = 'https://quoteslate.vercel.app/api/quotes/random';
     const options = {headers: {'Content-Type': 'application/json'}};
 
     try {
       const response = await fetch(url, options);
       const {id, quote, author} = await response.json();
+
       return new Quote(id, quote, author);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  static async getRandomQuoteViaOwnAPI() {
+    const url = 'http://127.0.0.1:3000/quotes/random-quote';
+    const options = {headers: {'Content-Type': 'application/json'}};
+
+    try {
+      const response = await fetch(url, options);
+      const {id, text, author} = await response.json();
+
+      return new Quote(id, text, author);
     } catch (error) {
       console.error(error);
     }
